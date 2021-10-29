@@ -12,12 +12,15 @@ namespace http
             using var client = new HttpClient();
             Console.WriteLine("Hello!");
             Console.WriteLine("Введите год");
-            string year = "0"+"0"+"0"+Console.ReadLine();
+            string year = Console.ReadLine();
+            
             Console.WriteLine("Введите месяц");
-            string month ="0"+Console.ReadLine();
+            string month =Console.ReadLine();
             Console.WriteLine("Введите день");
-            string day = "0"+Console.ReadLine();
-            HttpResponseMessage response = await client.GetAsync($"https://isdayoff.ru/{year.Substring(year.Length-4)}{month.Substring(month.Length-2)}{day.Substring(day.Length-2)}");
+            string day = Console.ReadLine();
+            DateTime dt = new DateTime(Convert.ToInt32(year), Convert.ToInt32(month), Convert.ToInt32(day));
+            string dataToSend = String.Format("{0:yyyyMMdd}", dt);
+            HttpResponseMessage response = await client.GetAsync($"https://isdayoff.ru/{dataToSend}");
             int code = (int)response.StatusCode;
             if (code == 200)
             {
